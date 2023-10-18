@@ -11,57 +11,54 @@ const canvasEscalado = {
     height: canvas.height / 4,
 };
 
+const colisionesPiso2D = [];
+ for (let i = 0; i < colisionesPiso.length; i+= 36 ) {
+    colisionesPiso2D.push(colisionesPiso.slice(i, i + 36))
+ };
+
+const colisionesDePlataformas2D = [];
+for  (let i = 0; i < colisionesDePlataformas.length; i += 36) {
+    colisionesDePlataformas2D.push(colisionesDePlataformas.slice(i, i + 36))
+};
+
+ const bloquesDeColision = [];
+ colisionesPiso2D.forEach((row, y) => {
+    row.forEach((Symbol, x) => {
+       if(Symbol === 4784) {
+        bloquesDeColision.push(new BloqueDeColision({posision: {
+            x: x * 16,
+            y: y * 16, 
+        },
+    })
+    )
+       } 
+    })
+ });
+
+ const bloquesDeColisionPlataformas = [];
+ colisionesDePlataformas2D.forEach((row, y) => {
+    row.forEach((Symbol, x) => {
+       if(Symbol === 4784) {
+        bloquesDeColisionPlataformas.push(new BloqueDeColision({posision: {
+            x: x * 16,
+            y: y * 16, 
+        },
+    })
+    )
+       } 
+    })
+ });
+
+
 const gravedad = 0.5;
 
-class Sprite {
-    constructor({posision, imageSrc}) {
-        this.posicion = posision;
-        this.imagen = new Image();
-        this.imagen.src = imageSrc
-    };
-
-    dibujar() {
-        if(!this.imagen) return;
-        c.drawImage(this.imagen, this.posicion.x, this.posicion.y);
-    };
-
-    actualizar(){
-        this.dibujar();
-    };
-};
-
-
-
-class Jugador {
-    constructor(posicion) {
-        this.posicion = posicion
-        this.velocidad = {
-            x: 0,
-            y: 1
-        };
-        this.altura = 100;
-    };
-
-    dibujar() {
-        c.fillStyle = 'red';
-        c.fillRect(this.posicion.x ,this.posicion.y ,100 , this.altura);
-    };
-
-    actualizar() {
-        this.dibujar();
-
-        this.posicion.x += this.velocidad.x;
-        this.posicion.y += this.velocidad.y;
-
-        if(this.posicion.y + this.altura  +this.velocidad.y < canvas.height) 
-            this.velocidad.y += gravedad;
-        else this.velocidad.y = 0; 
-    };
-};
 
 const jugador = new Jugador({
-    x: 0,
-    y: 0
+    posicion: {
+        x: 100,
+        y: 0
+    },
+    bloquesDeColision: bloquesDeColision,
 });
 
 const teclas = {
@@ -82,13 +79,6 @@ const background = new Sprite({
     imageSrc: './assets/img/backgrounds/background.png',
 });
 
-const imgMenu = new Sprite({
-    posision: {
-        x: 0,
-        y: 0,
-    },
-    imageSrc: './assets/img/backgrounds/inicio.jpg',
-});
  
   function animar() {
     window.requestAnimationFrame(animar);
@@ -98,27 +88,31 @@ const imgMenu = new Sprite({
     c.scale(4, 4);
     c.translate(0, -background.imagen.height + canvasEscalado.height);
     background.actualizar();
-    c.restore();
+    bloquesDeColision.forEach(bloquesDeColision => {
+        bloquesDeColision.actualizar();
+    })
+
+    bloquesDeColisionPlataformas.forEach(bloquesDeColisionPlataformas => {
+        bloquesDeColisionPlataformas.actualizar();
+    });
 
     jugador.actualizar();
 
     jugador.velocidad.x = 0;
     if (teclas.d.apretada) jugador.velocidad.x = 5;
     else if (teclas.a.apretada) jugador.velocidad.x = -5;
+
+    c.restore(); 
     
 };
 
-do {
-    let respuesta = prompt("Ingrese 'inicio' para comenzar").toLowerCase();
-    if (respuesta == "inicio") {
-        iniciar = true;
-    }
-  } while (iniciar == false);
+// do {
+//     let respuesta = prompt("Ingrese 'inicio' para comenzar").toLowerCase();
+//     if (respuesta == "inicio") {
+//         iniciar = true;
+//     }
+//   } while (iniciar == false);
 
-// let respuesta = prompt("Ingrese 'inicio' para comenzar").toLowerCase();
-// if (respuesta == "inicio") {
-//     iniciar = true;
-// }
 
  animar();
 
@@ -131,7 +125,7 @@ window.addEventListener('keydown', (event) =>{
             teclas.a.apretada = true
         break;
         case 'w':
-            jugador.velocidad.y = -15;
+            jugador.velocidad.y = -8;
         break;
     };
 });
