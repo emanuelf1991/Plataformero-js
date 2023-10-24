@@ -1,6 +1,6 @@
 class BloqueDeColision {
-    constructor({posision, }) {
-        this.posicion = posision;
+    constructor({posicion }) {
+        this.posicion = posicion;
         this.ancho = 16;
         this.alto = 16;
     };

@@ -25,7 +25,7 @@ for  (let i = 0; i < colisionesDePlataformas.length; i += 36) {
  colisionesPiso2D.forEach((row, y) => {
     row.forEach((Symbol, x) => {
        if(Symbol === 4784) {
-        bloquesDeColision.push(new BloqueDeColision({posision: {
+        bloquesDeColision.push(new BloqueDeColision({posicion: {
             x: x * 16,
             y: y * 16, 
         },
@@ -39,15 +39,15 @@ for  (let i = 0; i < colisionesDePlataformas.length; i += 36) {
  colisionesDePlataformas2D.forEach((row, y) => {
     row.forEach((Symbol, x) => {
        if(Symbol === 4784) {
-        bloquesDeColisionPlataformas.push(new BloqueDeColision({posision: {
+        bloquesDeColisionPlataformas.push(new BloqueDeColision({posicion: {
             x: x * 16,
             y: y * 16, 
         },
     })
     )
-       } 
-    })
- });
+   } 
+  })
+});
 
 
 const gravedad = 0.5;
@@ -59,6 +59,7 @@ const jugador = new Jugador({
         y: 0
     },
     bloquesDeColision: bloquesDeColision,
+    imageSrc: './assets/img/warrior/Idle/Idle-Sheet.png',
 });
 
 const teclas = {
@@ -72,7 +73,7 @@ const teclas = {
 };
 
 const background = new Sprite({
-    posision: {
+    posicion: {
         x: 0,
         y: 0,
     },
@@ -105,14 +106,6 @@ const background = new Sprite({
     c.restore(); 
     
 };
-
-// do {
-//     let respuesta = prompt("Ingrese 'inicio' para comenzar").toLowerCase();
-//     if (respuesta == "inicio") {
-//         iniciar = true;
-//     }
-//   } while (iniciar == false);
-
 
  animar();
 

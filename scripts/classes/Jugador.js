@@ -1,26 +1,23 @@
-class Jugador {
-    constructor({ posicion, bloquesDeColision }) {
+class Jugador extends Sprite {
+    constructor({ posicion, bloquesDeColision, imageSrc, frameRate }) {
+        super({ imageSrc, frameRate })
         this.posicion = posicion
         this.velocidad = {
             x: 0,
             y: 1
         };
-        this.ancho = 25;
-        this.altura = 25;
         this.bloquesDeColision = bloquesDeColision
     };
 
-    dibujar() {
-        c.fillStyle = 'red';
-        c.fillRect(this.posicion.x ,this.posicion.y ,this.ancho , this.altura);
-    };
 
     actualizar() {
+        c.fillStyle = 'rgba(0, 255, 0, 0.2)'
+        c.fillRect(this.posicion.x, this.posicion.y, this.ancho, this.alto)
         this.dibujar();
 
         this.posicion.x += this.velocidad.x;
         this.chekearPorColisionesHorizontales();
-        this.aplicarGravedad();
+        this.aplicarGravedad ();
         this.chekearPorColisionesVerticales();
     };
 
@@ -68,7 +65,7 @@ class Jugador {
 
             if(this.velocidad.y > 0) {
                 this.velocidad.y = 0;
-                this.posicion.y = bloqueDeColision.posicion.y - this.altura - 0.01;
+                this.posicion.y = bloqueDeColision.posicion.y - this.alto - 0.01;
                 break;
             }
 
