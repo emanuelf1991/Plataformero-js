@@ -1,8 +1,6 @@
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 
-let iniciar = false;
-
 canvas.width = 1024;
 canvas.height = 576;
 
@@ -60,6 +58,7 @@ const jugador = new Jugador({
     },
     bloquesDeColision: bloquesDeColision,
     imageSrc: './assets/img/warrior/Idle/Idle-Sheet.png',
+    frameRate: 4,
 });
 
 const teclas = {
