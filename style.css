@@ -1,3 +1,42 @@
 body{
     background: black;
 }
+
+.warrior-button {
+    display: block;
+    margin: 0 auto;
+    position: absolute;
+    top: 35%;
+    left: 27%; 
+    transform: translate(-50%, -50%);
+  }
+
+  .knight-button {
+    display: block;
+    margin: 0 auto;
+    position: absolute;
+    top: 40%;
+    left: 27%; 
+    transform: translate(-50%, -50%);
+
+  }
+
+  .heavy-knight-button {
+    display: block;
+    margin: 0 auto;
+    position: absolute;
+    top: 45%;
+    left: 27%; 
+    transform: translate(-50%, -50%);
+
+  }
+
+  .mensaje-inicio{
+    display: block;
+    margin: 0 auto;
+    position: absolute;
+    top: 30%;
+    left: 27%; 
+    transform: translate(-50%, -50%);
+    color: violet;
+  }

@@ -1,8 +1,50 @@
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
+let personaje = "";
 
 canvas.width = 1024;
 canvas.height = 576;
+canvas.style = "display:none";
+
+
+const pantallaInicio = document.getElementById( 'pantalla-inicio' );
+const imagenInicio = document.createElement('img');
+imagenInicio.id = 'imagen-de-inicio';
+imagenInicio.width = 1024;
+imagenInicio.height = 576;
+
+imagenInicio.src = './assets/img/backgrounds/earthblade.jpg';
+pantallaInicio.appendChild(imagenInicio);
+
+const mensajeInicio = document.createElement("p");
+mensajeInicio.innerText = "Seleccione un personaje"
+mensajeInicio.classList.add('mensaje-inicio');
+pantallaInicio.appendChild(mensajeInicio);
+
+const Wbutton = document.createElement('button'); 
+Wbutton.type = 'button'; 
+Wbutton.innerText = 'Guerrera'; 
+Wbutton.classList.add('warrior-button');
+Wbutton.onclick = startGameGuerrero;
+pantallaInicio.appendChild(Wbutton);
+
+
+const Kbutton = document.createElement('button'); 
+Kbutton.type = 'button'; 
+Kbutton.innerText = 'Caballero'; 
+Kbutton.classList.add('knight-button');
+Kbutton.onclick = startGameCaballero;
+pantallaInicio.appendChild(Kbutton);
+
+
+const HKbutton = document.createElement('button'); 
+HKbutton.type = 'button'; 
+HKbutton.innerText = 'Caballero Pesado'; 
+HKbutton.classList.add('heavy-knight-button');
+HKbutton.onclick = startGameCaballeroPesado;
+pantallaInicio.appendChild(HKbutton);
+
+document.body.appendChild(pantallaInicio);
 
 const canvasEscalado = {
     width: canvas.width / 4,
@@ -51,15 +93,44 @@ for  (let i = 0; i < colisionesDePlataformas.length; i += 36) {
 const gravedad = 0.5;
 
 
-const jugador = new Jugador({
-    posicion: {
-        x: 100,
-        y: 0
-    },
-    bloquesDeColision: bloquesDeColision,
-    imageSrc: './assets/img/warrior/Idle/Idle-Sheet.png',
-    frameRate: 4,
-});
+function seleccionarPersonaje(personaje){
+    switch (personaje) {
+        case "guerrero":
+             jugador = new Jugador({
+            posicion: {
+                x: 100,
+                y: 0
+            },
+            bloquesDeColision: bloquesDeColision,
+            imageSrc: './assets/img/warrior/Idle/Idle-Sheet.png',
+            frameRate: 4,
+        });
+          break;
+        case "caballero":
+              jugador = new Jugador({
+                posicion: {
+                    x: 100,
+                    y: 0
+                },
+                bloquesDeColision: bloquesDeColision,
+                imageSrc: './assets/img/knight/Idle.png',
+                frameRate: 8,
+            });
+          break;
+        case "caballero-pesado":
+             jugador = new Jugador({
+                posicion: {
+                    x: 100,
+                    y: 0
+                },
+                bloquesDeColision: bloquesDeColision,
+                imageSrc: './assets/img/heavyknight/Idle.png',
+                frameRate: 10,
+            });
+            
+          break;
+      }
+};
 
 const teclas = {
   d: {
@@ -106,7 +177,47 @@ const background = new Sprite({
     
 };
 
- animar();
+ function startGameGuerrero(){
+    console.log('Start Game...');
+    toggleScreen ("imagen-de-inicio", false);
+    toggleScreen ("canvas", true);
+    seleccionarPersonaje("guerrero");
+    Kbutton.style.display = "none";
+    HKbutton.style.display = "none";
+    Wbutton.style.display = "none";
+    mensajeInicio.style.display = "none";
+    animar();
+ };
+
+ function startGameCaballero(){
+    console.log('Start Game...');
+    toggleScreen ("imagen-de-inicio", false);
+    toggleScreen ("canvas", true);
+    seleccionarPersonaje("caballero");
+    Kbutton.style.display = "none";
+    HKbutton.style.display = "none";
+    Wbutton.style.display = "none";
+    mensajeInicio.style.display = "none";
+    animar();
+ };
+
+ function startGameCaballeroPesado(){
+    console.log('Start Game...');
+    toggleScreen ("imagen-de-inicio", false);
+    toggleScreen ("canvas", true);
+    seleccionarPersonaje("caballero-pesado");
+    Kbutton.style.display = "none";
+    HKbutton.style.display = "none";
+    Wbutton.style.display = "none";
+    mensajeInicio.style.display = "none";
+    animar();
+ };
+
+ function toggleScreen(id, toggle) {
+    let element = document.getElementById(id);
+    let display = ( toggle ) ? "block" : "none";
+    element.style.display = display;
+ };
 
 window.addEventListener('keydown', (event) =>{
     switch (event.key) {
