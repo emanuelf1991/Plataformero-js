@@ -1,6 +1,7 @@
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 let personaje = "";
+const personajeGuardado = sessionStorage.getItem('personajeSeleccionado');
 
 canvas.width = 1024;
 canvas.height = 576;
@@ -46,6 +47,8 @@ pantallaInicio.appendChild(HKbutton);
 
 document.body.appendChild(pantallaInicio);
 
+
+
 const canvasEscalado = {
     width: canvas.width / 4,
     height: canvas.height / 4,
@@ -89,11 +92,28 @@ for  (let i = 0; i < colisionesDePlataformas.length; i += 36) {
   })
 });
 
-
 const gravedad = 0.5;
 
+const teclas = {
+  d: {
+    apretada: false,
+  },
+  a: {
+    apretada: false,
+  },  
+
+};
+
+const background = new Sprite({
+    posicion: {
+        x: 0,
+        y: 0,
+    },
+    imageSrc: './assets/img/backgrounds/background.png',
+});
 
 function seleccionarPersonaje(personaje){
+    sessionStorage.setItem('personajeSeleccionado', personaje);
     switch (personaje) {
         case "guerrero":
              jugador = new Jugador({
@@ -132,25 +152,19 @@ function seleccionarPersonaje(personaje){
       }
 };
 
-const teclas = {
-  d: {
-    apretada: false,
-  },
-  a: {
-    apretada: false,
-  },  
+if(personajeGuardado){
+    console.log(personajeGuardado);
+    toggleScreen ("imagen-de-inicio", false);
+    toggleScreen ("canvas", true);
+    seleccionarPersonaje(personajeGuardado);
+    Kbutton.style.display = "none";
+    HKbutton.style.display = "none";
+    Wbutton.style.display = "none";
+    mensajeInicio.style.display = "none";
+    animar();
 
-};
+} 
 
-const background = new Sprite({
-    posicion: {
-        x: 0,
-        y: 0,
-    },
-    imageSrc: './assets/img/backgrounds/background.png',
-});
-
- 
   function animar() {
     window.requestAnimationFrame(animar);
     c.fillRect(0, 0, canvas.width, canvas.height);
@@ -178,7 +192,6 @@ const background = new Sprite({
 };
 
  function startGameGuerrero(){
-    console.log('Start Game...');
     toggleScreen ("imagen-de-inicio", false);
     toggleScreen ("canvas", true);
     seleccionarPersonaje("guerrero");
@@ -190,7 +203,6 @@ const background = new Sprite({
  };
 
  function startGameCaballero(){
-    console.log('Start Game...');
     toggleScreen ("imagen-de-inicio", false);
     toggleScreen ("canvas", true);
     seleccionarPersonaje("caballero");
@@ -202,7 +214,6 @@ const background = new Sprite({
  };
 
  function startGameCaballeroPesado(){
-    console.log('Start Game...');
     toggleScreen ("imagen-de-inicio", false);
     toggleScreen ("canvas", true);
     seleccionarPersonaje("caballero-pesado");
@@ -212,6 +223,7 @@ const background = new Sprite({
     mensajeInicio.style.display = "none";
     animar();
  };
+
 
  function toggleScreen(id, toggle) {
     let element = document.getElementById(id);
