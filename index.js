@@ -1,6 +1,7 @@
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 let personaje = "";
+let nuevoEnemigo; // Agrega esta línea
 const personajeGuardado = sessionStorage.getItem('personajeSeleccionado');
 
 canvas.width = 1024;
@@ -48,7 +49,6 @@ pantallaInicio.appendChild(HKbutton);
 document.body.appendChild(pantallaInicio);
 
 
-
 const canvasEscalado = {
     width: canvas.width / 4,
     height: canvas.height / 4,
@@ -92,6 +92,29 @@ for  (let i = 0; i < colisionesDePlataformas.length; i += 36) {
   })
 });
 
+const obtenerEnemigo = async () => {
+    try {
+      const resp = await fetch('./scripts/data/data.json');
+      const data = await resp.json();
+        
+        nuevoEnemigo = new Jugador({
+        posicion: {
+        x: data.posicion.x,
+        y: data.posicion.y,
+        },
+        bloquesDeColision: bloquesDeColision,
+        imageSrc: data.imageSrc,
+        frameRate: data.frameRate,
+    }); 
+
+    } catch (error) {
+      console.error('Error al obtener enemigos:', error);
+    }
+  };
+  
+  obtenerEnemigo();
+
+
 const gravedad = 0.5;
 
 const teclas = {
@@ -118,7 +141,7 @@ function seleccionarPersonaje(personaje){
         case "guerrero":
              jugador = new Jugador({
             posicion: {
-                x: 100,
+                x: 70,
                 y: 0
             },
             bloquesDeColision: bloquesDeColision,
@@ -129,7 +152,7 @@ function seleccionarPersonaje(personaje){
         case "caballero":
               jugador = new Jugador({
                 posicion: {
-                    x: 100,
+                    x: 70,
                     y: 0
                 },
                 bloquesDeColision: bloquesDeColision,
@@ -140,7 +163,7 @@ function seleccionarPersonaje(personaje){
         case "caballero-pesado":
              jugador = new Jugador({
                 posicion: {
-                    x: 100,
+                    x: 70,
                     y: 0
                 },
                 bloquesDeColision: bloquesDeColision,
@@ -152,18 +175,6 @@ function seleccionarPersonaje(personaje){
       }
 };
 
-if(personajeGuardado){
-    console.log(personajeGuardado);
-    toggleScreen ("imagen-de-inicio", false);
-    toggleScreen ("canvas", true);
-    seleccionarPersonaje(personajeGuardado);
-    Kbutton.style.display = "none";
-    HKbutton.style.display = "none";
-    Wbutton.style.display = "none";
-    mensajeInicio.style.display = "none";
-    animar();
-
-} 
 
   function animar() {
     window.requestAnimationFrame(animar);
@@ -182,6 +193,10 @@ if(personajeGuardado){
     });
 
     jugador.actualizar();
+    
+    if (nuevoEnemigo) {
+        nuevoEnemigo.actualizar();
+    }
 
     jugador.velocidad.x = 0;
     if (teclas.d.apretada) jugador.velocidad.x = 5;
@@ -224,6 +239,17 @@ if(personajeGuardado){
     animar();
  };
 
+ if(personajeGuardado){
+    console.log(personajeGuardado);
+    toggleScreen ("imagen-de-inicio", false);
+    toggleScreen ("canvas", true);
+    seleccionarPersonaje(personajeGuardado);
+    Kbutton.style.display = "none";
+    HKbutton.style.display = "none";
+    Wbutton.style.display = "none";
+    mensajeInicio.style.display = "none";
+    animar();
+} 
 
  function toggleScreen(id, toggle) {
     let element = document.getElementById(id);
