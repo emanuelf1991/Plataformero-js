@@ -1,4 +1,6 @@
-
-    {
-        "posicion": { "x": 135, "y": 0},  "imageSrc": "./assets/img/demon/demon-idle.png", "frameRate": 6
-    }
+[
+    {"id":1, "posicion": { "x": 135, "y": 0},  "imageSrc": "./assets/img/enemies/demon-idle.png", "frameRate": 6},
+    {"id":2, "posicion": { "x": 135, "y": 0},  "imageSrc": "./assets/img/enemies/fire-skull.png", "frameRate": 8},
+    {"id":3, "posicion": { "x": 135, "y": 0},  "imageSrc": "./assets/img/enemies/hell-beast-idle.png", "frameRate": 6},
+    {"id":4, "posicion": { "x": 135, "y": 0},  "imageSrc": "./assets/img/enemies/nightmare-idle.png", "frameRate": 4}
+]

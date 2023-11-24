@@ -96,17 +96,23 @@ const obtenerEnemigo = async () => {
     try {
       const resp = await fetch('./scripts/data/data.json');
       const data = await resp.json();
-        
-        nuevoEnemigo = new Jugador({
-        posicion: {
-        x: data.posicion.x,
-        y: data.posicion.y,
-        },
-        bloquesDeColision: bloquesDeColision,
-        imageSrc: data.imageSrc,
-        frameRate: data.frameRate,
-    }); 
+      
+      let enemigoAleatorio = Math.floor(Math.random() * 4) + 1;
 
+      console.log(enemigoAleatorio);
+      data.forEach((enemigo) =>{
+        if(enemigo.id === enemigoAleatorio){
+                nuevoEnemigo = new Jugador({
+                posicion: {
+                x: enemigo.posicion.x,
+                y: enemigo.posicion.y,
+                },
+                bloquesDeColision: bloquesDeColision,
+                imageSrc: enemigo.imageSrc,
+                frameRate: enemigo.frameRate,
+            })
+        }
+    }); 
     } catch (error) {
       console.error('Error al obtener enemigos:', error);
     }
@@ -193,7 +199,7 @@ function seleccionarPersonaje(personaje){
     });
 
     jugador.actualizar();
-    
+
     if (nuevoEnemigo) {
         nuevoEnemigo.actualizar();
     }
